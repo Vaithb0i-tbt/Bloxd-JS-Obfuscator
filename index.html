@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS Obfuscator</title>
+  <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>JavaScript Obfuscator</h1>
+  <label for="inputCode">Original JS Code:</label>
+  <textarea id="inputCode" placeholder="Paste your JS code here..."></textarea>
+
+  <button onclick="obfuscateCode()">Obfuscate</button>
+
+  <label for="outputCode">Obfuscated Code:</label>
+  <textarea id="outputCode" readonly placeholder="Obfuscated code will appear here..."></textarea>
+
+  <script>
+    function obfuscateCode() {
+      const input = document.getElementById('inputCode').value;
+      if (!input.trim()) {
+        alert('Please enter some JavaScript code to obfuscate.');
+        return;
+      }
+      const obfuscated = JavaScriptObfuscator.obfuscate(input, {
+        compact: true,
+        controlFlowFlattening: true
+      });
+      document.getElementById('outputCode').value = obfuscated.getObfuscatedCode();
+    }
+  </script>
+</body>
+</html>
