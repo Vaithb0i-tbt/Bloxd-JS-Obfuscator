@@ -67,6 +67,7 @@
       border: none;
       border-radius: 4px;
       transition: background-color 0.3s;
+      margin-right: 10px;
     }
     button:hover {
       background-color: var(--button-hover);
@@ -96,7 +97,7 @@
 </head>
 <body>
   <h1>
-    JavaScript Obfuscator <span class="tag">only for Java script </span>
+    JavaScript Obfuscator <span class="tag">Bloxdy Tools</span>
   </h1>
   <div id="errorMsg"></div>
 
@@ -104,6 +105,7 @@
   <textarea id="inputCode" placeholder="Paste your JS code here..."></textarea>
 
   <button onclick="obfuscateCode()">Obfuscate</button>
+  <button onclick="copyObfuscatedCode()">Copy</button>
 
   <label for="outputCode">Obfuscated Code:</label>
   <textarea id="outputCode" readonly placeholder="Obfuscated code will appear here..."></textarea>
@@ -133,6 +135,14 @@
         errorMsg.textContent = 'Error: Invalid JavaScript code.';
         errorMsg.style.display = 'block';
       }
+    }
+
+    function copyObfuscatedCode() {
+      const output = document.getElementById('outputCode');
+      if (!output.value.trim()) return;
+      output.select();
+      document.execCommand('copy');
+      alert('Obfuscated code copied to clipboard!');
     }
 
     function toggleTheme() {
