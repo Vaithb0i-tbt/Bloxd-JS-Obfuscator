@@ -77,9 +77,8 @@
       margin-bottom: 15px;
       display: none;
     }
-    #themeToggle {
+    #themeToggle, #borderColorContainer {
       position: fixed;
-      bottom: 20px;
       right: 20px;
       background-color: var(--button-bg);
       color: var(--text-color);
@@ -90,24 +89,22 @@
       transition: background-color 0.3s;
       z-index: 1000;
     }
-    #themeToggle:hover {
+    #themeToggle:hover, #borderColorContainer:hover {
       background-color: var(--button-hover);
     }
-    .color-picker {
-      margin-bottom: 20px;
+    #themeToggle {
+      bottom: 20px;
+    }
+    #borderColorContainer {
+      bottom: 70px;
     }
   </style>
 </head>
 <body>
   <h1>
-    JavaScript Obfuscator <span class="tag">V1.2</span>
+    JavaScript Obfuscator <span class="tag">Bloxdy Tools</span>
   </h1>
   <div id="errorMsg"></div>
-
-  <div class="color-picker">
-    <label for="borderColor">Textbox Border Color: </label>
-    <input type="color" id="borderColor" onchange="updateBorderColor(this.value)" />
-  </div>
 
   <label for="inputCode">Original JS Code:</label>
   <textarea id="inputCode" placeholder="Paste your JS code here..."></textarea>
@@ -118,9 +115,27 @@
   <label for="outputCode">Obfuscated Code:</label>
   <textarea id="outputCode" readonly placeholder="Obfuscated code will appear here..."></textarea>
 
+  <div id="borderColorContainer">
+    <label for="borderColor">Textbox Border Color:</label>
+    <input type="color" id="borderColor" onchange="updateBorderColor(this.value)" />
+  </div>
+
   <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
 
   <script>
+    // Load saved theme and border color
+    window.onload = () => {
+      const savedTheme = localStorage.getItem('theme');
+      const savedBorderColor = localStorage.getItem('borderColor');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+      }
+      if (savedBorderColor) {
+        document.documentElement.style.setProperty('--border-color', savedBorderColor);
+        document.getElementById('borderColor').value = savedBorderColor;
+      }
+    };
+
     function obfuscateCode() {
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.style.display = 'none';
@@ -155,10 +170,13 @@
 
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
+      const isLight = document.body.classList.contains('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
     }
 
     function updateBorderColor(color) {
       document.documentElement.style.setProperty('--border-color', color);
+      localStorage.setItem('borderColor', color);
     }
   </script>
 </body>
