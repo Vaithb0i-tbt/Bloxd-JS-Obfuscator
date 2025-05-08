@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTML & JavaScript Obfuscator</title>
+  <title>Code Obfuscator</title>
   <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
   <style>
     :root {
@@ -15,17 +15,19 @@
       --button-hover: #111827;
       --tag-bg: #e5e7eb;
       --tag-text: #374151;
+      --input-bg: #ffffff;
     }
 
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #e0e0e0;
       --textarea-bg: #1e1e1e;
-      --border-color: #333;
-      --button-bg: #333;
-      --button-hover: #444;
+      --border-color: #444;
+      --button-bg: #444;
+      --button-hover: #555;
       --tag-bg: #2a2a2a;
       --tag-text: #ccc;
+      --input-bg: #1e1e1e;
     }
 
     body {
@@ -106,6 +108,7 @@
       font-size: 14px;
       z-index: 1000;
       user-select: none;
+      border: 1px solid var(--border-color);
     }
 
     #themeToggle {
@@ -119,11 +122,20 @@
       gap: 4px;
       align-items: flex-start;
     }
+
+    #borderColorContainer input[type="color"] {
+      padding: 0;
+      height: 32px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <h1>
-    HTML & JavaScript Obfuscator <span class="tag">v3.0</span>
+    Code Obfuscator <span class="tag">v3.1</span>
   </h1>
 
   <div id="errorMsg" role="alert"></div>
@@ -132,10 +144,12 @@
   <select id="modeSelect">
     <option value="js">JavaScript</option>
     <option value="html">HTML</option>
+    <option value="css">CSS</option>
+    <option value="python">Python</option>
   </select>
 
   <label for="inputCode">Original Code:</label>
-  <textarea id="inputCode" aria-label="Original Code" placeholder="Paste your HTML or JS code here..."></textarea>
+  <textarea id="inputCode" aria-label="Original Code" placeholder="Paste your code here..."></textarea>
 
   <button onclick="obfuscateCode()">Obfuscate</button>
   <button onclick="copyObfuscatedCode()">Copy</button>
@@ -163,6 +177,10 @@
       }
     };
 
+    function encodeHTML(str) {
+      return str.split('').map(c => `&#${c.charCodeAt(0)};`).join('');
+    }
+
     function obfuscateCode() {
       const errorMsg = document.getElementById('errorMsg');
       const mode = document.getElementById('modeSelect').value;
@@ -184,8 +202,8 @@
             controlFlowFlattening: true
           });
           output = obfuscated.getObfuscatedCode();
-        } else if (mode === 'html') {
-          output = input.split('').map(c => `&#${c.charCodeAt(0)};`).join('');
+        } else if (mode === 'html' || mode === 'css' || mode === 'python') {
+          output = encodeHTML(input);
         }
         document.getElementById('outputCode').value = output;
       } catch (err) {
