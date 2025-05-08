@@ -112,29 +112,6 @@
       border: 1px solid var(--border-color);
     }
 
-    #borderColorContainer {
-      position: fixed;
-      right: 20px;
-      bottom: 70px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      align-items: flex-start;
-      background-color: var(--textarea-bg);
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-    }
-
-    #borderColorContainer input[type="color"] {
-      padding: 0;
-      height: 32px;
-      width: 100%;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
-
     #whatsNewToggle {
       position: fixed;
       left: 20px;
@@ -179,7 +156,7 @@
 </head>
 <body>
   <h1>
-    Code Obfuscator <span class="tag">v3.1</span>
+    Code Obfuscator <span class="tag">v3.2</span>
   </h1>
 
   <div id="errorMsg" role="alert"></div>
@@ -190,6 +167,11 @@
     <option value="html">HTML</option>
     <option value="css">CSS</option>
     <option value="python">Python</option>
+    <option value="c">C</option>
+    <option value="cpp">C++</option>
+    <option value="csharp">C#</option>
+    <option value="perl">Perl</option>
+    <option value="haskell">Haskell</option>
   </select>
 
   <label for="inputCode">Original Code:</label>
@@ -201,34 +183,23 @@
   <label for="outputCode">Obfuscated Code:</label>
   <textarea id="outputCode" aria-label="Obfuscated Code" readonly placeholder="Obfuscated code will appear here..."></textarea>
 
-  <div id="borderColorContainer">
-    <label for="borderColor">Textbox Border Color:</label>
-    <input type="color" id="borderColor" onchange="updateBorderColor(this.value)" />
-  </div>
-
   <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
   <div id="whatsNewToggle" onclick="toggleWhatsNew()">What's New</div>
 
   <div id="whatsNewBox">
     <button id="closeWhatsNew" onclick="toggleWhatsNew()">✖</button>
-    <h2>What's New in Version 3.1</h2>
+    <h2>What's New in Version 3.2</h2>
     <ul>
-      <li>Added HTML, CSS, and Python obfuscation</li>
-      <li>Improved UI with theme support</li>
-      <li>Customizable border color</li>
+      <li>Removed color picker box</li>
+      <li>Added support for C, C++, C#, Perl, and Haskell</li>
     </ul>
   </div>
 
   <script>
     window.onload = () => {
       const savedTheme = localStorage.getItem('theme');
-      const savedBorderColor = localStorage.getItem('borderColor');
       if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
-      }
-      if (savedBorderColor) {
-        document.documentElement.style.setProperty('--border-color', savedBorderColor);
-        document.getElementById('borderColor').value = savedBorderColor;
       }
     };
 
@@ -257,7 +228,7 @@
             controlFlowFlattening: true
           });
           output = obfuscated.getObfuscatedCode();
-        } else if (mode === 'html' || mode === 'css' || mode === 'python') {
+        } else {
           output = encodeHTML(input);
         }
         document.getElementById('outputCode').value = output;
@@ -284,21 +255,10 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
 
-    function updateBorderColor(color) {
-      document.documentElement.style.setProperty('--border-color', color);
-      localStorage.setItem('borderColor', color);
-    }
-
     function toggleWhatsNew() {
       const box = document.getElementById('whatsNewBox');
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
     }
-
-    document.addEventListener('keydown', function(event) {
-      if (event.ctrlKey && event.key === 'Enter') {
-        obfuscateCode();
-      }
-    });
   </script>
 </body>
 </html>
