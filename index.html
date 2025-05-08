@@ -6,18 +6,41 @@
   <title>JS Obfuscator</title>
   <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
   <style>
+    :root {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --textarea-bg: #1e1e1e;
+      --border-color: #333;
+      --button-bg: #333;
+      --button-hover: #444;
+      --tag-bg: #2a2a2a;
+      --tag-text: #ccc;
+    }
+
+    body.light-mode {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --textarea-bg: #f5f5f5;
+      --border-color: #ccc;
+      --button-bg: #e0e0e0;
+      --button-hover: #d0d0d0;
+      --tag-bg: #e0e0e0;
+      --tag-text: #000000;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       padding: 20px;
       max-width: 800px;
       margin: auto;
-      background-color: #121212;
-      color: #e0e0e0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
     }
     .tag {
       display: inline-block;
-      background-color: #2a2a2a;
-      color: #ccc;
+      background-color: var(--tag-bg);
+      color: var(--tag-text);
       font-size: 14px;
       padding: 4px 10px;
       margin-left: 10px;
@@ -28,28 +51,46 @@
       width: 100%;
       height: 200px;
       margin-bottom: 20px;
-      background-color: #1e1e1e;
-      color: #e0e0e0;
-      border: 1px solid #333;
+      background-color: var(--textarea-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
       padding: 10px;
       font-family: monospace;
+      transition: background-color 0.3s, color 0.3s;
     }
     button {
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
-      background-color: #333;
-      color: white;
+      background-color: var(--button-bg);
+      color: var(--text-color);
       border: none;
       border-radius: 4px;
+      transition: background-color 0.3s;
     }
     button:hover {
-      background-color: #444;
+      background-color: var(--button-hover);
     }
     #errorMsg {
       color: #ff6b6b;
       margin-bottom: 15px;
       display: none;
+    }
+    #themeToggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--button-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      z-index: 1000;
+    }
+    #themeToggle:hover {
+      background-color: var(--button-hover);
     }
   </style>
 </head>
@@ -66,6 +107,8 @@
 
   <label for="outputCode">Obfuscated Code:</label>
   <textarea id="outputCode" readonly placeholder="Obfuscated code will appear here..."></textarea>
+
+  <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
 
   <script>
     function obfuscateCode() {
@@ -90,6 +133,10 @@
         errorMsg.textContent = 'Error: Invalid JavaScript code.';
         errorMsg.style.display = 'block';
       }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
     }
   </script>
 </body>
