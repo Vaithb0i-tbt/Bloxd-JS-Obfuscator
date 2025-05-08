@@ -97,7 +97,7 @@
       display: none;
     }
 
-    #themeToggle, #borderColorContainer {
+    #themeToggle, #borderColorContainer, #whatsNewToggle {
       position: fixed;
       right: 20px;
       background-color: var(--button-bg);
@@ -131,6 +131,34 @@
       border: none;
       cursor: pointer;
     }
+
+    #whatsNewToggle {
+      bottom: 120px;
+    }
+
+    #whatsNewBox {
+      display: none;
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background-color: var(--textarea-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      padding: 16px;
+      border-radius: 8px;
+      width: 280px;
+      z-index: 999;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    #closeWhatsNew {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 16px;
+      cursor: pointer;
+      float: right;
+    }
   </style>
 </head>
 <body>
@@ -163,6 +191,17 @@
   </div>
 
   <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
+  <div id="whatsNewToggle" onclick="toggleWhatsNew()">What's New</div>
+
+  <div id="whatsNewBox">
+    <button id="closeWhatsNew" onclick="toggleWhatsNew()">✖</button>
+    <strong>Version 3.1 Updates:</strong>
+    <ul>
+      <li>Added HTML, CSS, and Python obfuscation</li>
+      <li>Improved UI with theme support</li>
+      <li>Customizable border color</li>
+    </ul>
+  </div>
 
   <script>
     window.onload = () => {
@@ -232,6 +271,11 @@
     function updateBorderColor(color) {
       document.documentElement.style.setProperty('--border-color', color);
       localStorage.setItem('borderColor', color);
+    }
+
+    function toggleWhatsNew() {
+      const box = document.getElementById('whatsNewBox');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
     }
   </script>
 </body>
