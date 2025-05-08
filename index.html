@@ -53,10 +53,10 @@
       margin-bottom: 20px;
       background-color: var(--textarea-bg);
       color: var(--text-color);
-      border: 1px solid var(--border-color);
+      border: 2px solid var(--border-color);
       padding: 10px;
       font-family: monospace;
-      transition: background-color 0.3s, color 0.3s;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
     button {
       padding: 10px 20px;
@@ -93,13 +93,21 @@
     #themeToggle:hover {
       background-color: var(--button-hover);
     }
+    .color-picker {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
   <h1>
-    JavaScript Obfuscator <span class="tag">Created by AdvaithBoi </span>
+    JavaScript Obfuscator <span class="tag">V1.2</span>
   </h1>
   <div id="errorMsg"></div>
+
+  <div class="color-picker">
+    <label for="borderColor">Textbox Border Color: </label>
+    <input type="color" id="borderColor" onchange="updateBorderColor(this.value)" />
+  </div>
 
   <label for="inputCode">Original JS Code:</label>
   <textarea id="inputCode" placeholder="Paste your JS code here..."></textarea>
@@ -147,6 +155,10 @@
 
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
+    }
+
+    function updateBorderColor(color) {
+      document.documentElement.style.setProperty('--border-color', color);
     }
   </script>
 </body>
