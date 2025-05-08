@@ -7,6 +7,17 @@
   <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
   <style>
     :root {
+      --bg-color: #f9f9f9;
+      --text-color: #1a1a1a;
+      --textarea-bg: #ffffff;
+      --border-color: #d1d5db;
+      --button-bg: #1f2937;
+      --button-hover: #111827;
+      --tag-bg: #e5e7eb;
+      --tag-text: #374151;
+    }
+
+    body.dark-mode {
       --bg-color: #121212;
       --text-color: #e0e0e0;
       --textarea-bg: #1e1e1e;
@@ -17,59 +28,61 @@
       --tag-text: #ccc;
     }
 
-    body.light-mode {
-      --bg-color: #ffffff;
-      --text-color: #000000;
-      --textarea-bg: #f5f5f5;
-      --border-color: #ccc;
-      --button-bg: #e0e0e0;
-      --button-hover: #d0d0d0;
-      --tag-bg: #e0e0e0;
-      --tag-text: #000000;
-    }
-
     body {
       font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
+      margin: 0;
+      padding: 40px 20px;
       background-color: var(--bg-color);
       color: var(--text-color);
       transition: background-color 0.3s, color 0.3s;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
     }
 
     .tag {
-      display: inline-block;
+      font-size: 13px;
       background-color: var(--tag-bg);
       color: var(--tag-text);
-      font-size: 14px;
-      padding: 4px 10px;
-      margin-left: 10px;
       border-radius: 20px;
-      vertical-align: middle;
+      padding: 4px 12px;
+      margin-left: 8px;
     }
 
-    select, textarea, button {
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    select, textarea, button, input[type="color"] {
       width: 100%;
-      margin-bottom: 20px;
       padding: 10px;
-      font-size: 16px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: var(--textarea-bg);
+      color: var(--text-color);
+      box-sizing: border-box;
     }
 
     textarea {
-      background-color: var(--textarea-bg);
-      color: var(--text-color);
-      border: 2px solid var(--border-color);
-      font-family: monospace;
-      transition: all 0.3s;
+      resize: vertical;
+      min-height: 150px;
     }
 
     button {
+      margin-top: 10px;
       background-color: var(--button-bg);
-      color: var(--text-color);
+      color: #fff;
       border: none;
-      border-radius: 4px;
-      transition: background-color 0.3s;
+      cursor: pointer;
+      transition: background-color 0.2s;
     }
 
     button:hover {
@@ -77,8 +90,8 @@
     }
 
     #errorMsg {
-      color: #ff6b6b;
-      margin-bottom: 15px;
+      color: #dc2626;
+      margin-top: 10px;
       display: none;
     }
 
@@ -86,17 +99,13 @@
       position: fixed;
       right: 20px;
       background-color: var(--button-bg);
-      color: var(--text-color);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 10px 16px;
+      color: #fff;
+      border-radius: 6px;
+      padding: 8px 12px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      font-size: 14px;
       z-index: 1000;
-    }
-
-    #themeToggle:hover, #borderColorContainer:hover {
-      background-color: var(--button-hover);
+      user-select: none;
     }
 
     #themeToggle {
@@ -105,6 +114,10 @@
 
     #borderColorContainer {
       bottom: 70px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
     }
   </style>
 </head>
@@ -132,17 +145,17 @@
 
   <div id="borderColorContainer">
     <label for="borderColor">Textbox Border Color:</label>
-    <input type="color" id="borderColor" onchange="updateBorderColor(this.value)" aria-label="Select border color" />
+    <input type="color" id="borderColor" onchange="updateBorderColor(this.value)" />
   </div>
 
-  <div id="themeToggle" onclick="toggleTheme()" aria-label="Toggle Theme">Toggle Theme</div>
+  <div id="themeToggle" onclick="toggleTheme()">Toggle Theme</div>
 
   <script>
     window.onload = () => {
       const savedTheme = localStorage.getItem('theme');
       const savedBorderColor = localStorage.getItem('borderColor');
-      if (savedTheme === 'light') {
-        document.body.classList.add('light-mode');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
       }
       if (savedBorderColor) {
         document.documentElement.style.setProperty('--border-color', savedBorderColor);
@@ -174,7 +187,6 @@
         } else if (mode === 'html') {
           output = input.split('').map(c => `&#${c.charCodeAt(0)};`).join('');
         }
-
         document.getElementById('outputCode').value = output;
       } catch (err) {
         errorMsg.textContent = 'Error: Invalid code or unsupported characters.';
@@ -194,9 +206,9 @@
     }
 
     function toggleTheme() {
-      document.body.classList.toggle('light-mode');
-      const isLight = document.body.classList.contains('light-mode');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
 
     function updateBorderColor(color) {
