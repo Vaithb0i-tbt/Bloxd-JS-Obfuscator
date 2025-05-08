@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -97,7 +97,7 @@
       display: none;
     }
 
-    #themeToggle, #borderColorContainer, #whatsNewToggle {
+    #themeToggle, #borderColorContainer {
       position: fixed;
       right: 20px;
       background-color: var(--button-bg);
@@ -133,21 +133,32 @@
     }
 
     #whatsNewToggle {
-      bottom: 120px;
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background-color: var(--button-bg);
+      color: #fff;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1000;
+      user-select: none;
+      border: 1px solid var(--border-color);
     }
 
     #whatsNewBox {
       display: none;
       position: fixed;
-      left: 20px;
-      bottom: 20px;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background-color: var(--textarea-bg);
       color: var(--text-color);
-      border: 1px solid var(--border-color);
-      padding: 16px;
-      border-radius: 8px;
-      width: 280px;
+      padding: 32px;
       z-index: 999;
+      overflow-y: auto;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
@@ -155,9 +166,11 @@
       background: none;
       border: none;
       color: var(--text-color);
-      font-size: 16px;
+      font-size: 24px;
       cursor: pointer;
-      float: right;
+      position: absolute;
+      top: 20px;
+      right: 30px;
     }
   </style>
 </head>
@@ -195,7 +208,7 @@
 
   <div id="whatsNewBox">
     <button id="closeWhatsNew" onclick="toggleWhatsNew()">✖</button>
-    <strong>Version 3.1 Updates:</strong>
+    <h2>What's New in Version 3.1</h2>
     <ul>
       <li>Added HTML, CSS, and Python obfuscation</li>
       <li>Improved UI with theme support</li>
